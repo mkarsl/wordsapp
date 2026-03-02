@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelime Ustası Pro - Elite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 id="nav-title" onclick="showMainMenu()">🏠 Menü</h1>
+            <div class="header-right">
+                <div class="status-group">
+                    <div class="badge-status">🥇 <span id="total-badges">0</span></div>
+                    <div class="coin-status">💰 <span id="coin-count">0</span></div>
+                </div>
+                <button id="hint-btn" class="hint-btn" style="display:none;" onclick="useHint()">İpucu</button>
+            </div>
+        </div>
+
+        <div id="main-menu">
+            <div class="mode-selector">
+                <button id="mode-normal" class="mode-btn active" onclick="setGameMode('normal')">Klasik</button>
+                <button id="mode-timed" class="mode-btn" onclick="setGameMode('timed')">⚡ Zamana Karşı</button>
+            </div>
+            <div id="level-list" class="level-grid"></div>
+        </div>
+
+        <div id="game-area" style="display:none;">
+            <div id="play-screen">
+                <div class="level-info">
+                    <div class="progress-wrapper">
+                        <div class="progress-container"><div id="progress-bar" class="progress-fill"></div></div>
+                        <span id="progress-text">0 / 0</span>
+                    </div>
+                </div>
+                <div id="question-box">
+                    <div id="word-card" class="card">
+                        <div id="word" class="word-text"></div>
+                        <button class="speaker-btn" onclick="speakWord()">🔊</button>
+                    </div>
+                    <div id="options-container" class="options-grid"></div>
+                    <p id="feedback" class="feedback-text"></p>
+                </div>
+            </div>
+
+            <div id="finish-screen" style="display:none;">
+                <div class="finish-content">
+                    <div class="finish-icon">🏆</div>
+                    <h2>Tebrikler!</h2>
+                    <p>Bu aşamadaki tüm kelimeleri öğrendin.</p>
+                    <div class="finish-actions">
+                        <button class="btn-primary" onclick="resetAndRetry()">🔄 Tekrarla</button>
+                        <button class="btn-secondary" onclick="showMainMenu()">Ana Menü</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
