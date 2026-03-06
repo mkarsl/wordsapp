@@ -10,21 +10,41 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1 id="nav-title" onclick="showMainMenu()">🏠 Menü</h1>
+            <div class="header-left">
+                <h1 onclick="showLandingMenu()" style="cursor:pointer">Ana Menü</h1>
+                <div id="sub-nav-levels" onclick="backToLevels()" style="display:none; cursor:pointer;">Seviyeler</div>
+            </div>
             <div class="header-right">
-                <div id="timer-display" class="timer-badge" style="display:none;">⏱️ <span id="time-left">10</span>s</div>
                 <div class="status-group">
+                    <div id="timer-display" class="timer-badge" style="display:none;">⏱️ <span id="time-left">10</span></div>
+                    <div id="streak-badge" class="streak-badge" style="display:none;">🔥 <span id="streak-count">0</span></div>
+                    <button id="hint-btn" class="hint-btn-header" style="display:none;" onclick="useHint()">💡</button>
                     <div class="badge-status">🥇 <span id="total-badges">0</span></div>
                     <div class="coin-status">💰 <span id="coin-count">0</span></div>
                 </div>
-                <button id="hint-btn" class="hint-btn" style="display:none;" onclick="useHint()">İpucu</button>
             </div>
         </div>
 
-        <div id="main-menu">
-            <div class="mode-selector">
-                <button id="mode-normal" class="mode-btn active" onclick="setGameMode('normal')">Klasik</button>
-                <button id="mode-timed" class="mode-btn" onclick="setGameMode('timed')">⚡ Zamana Karşı</button>
+        <div id="landing-menu" class="menu-screen">
+            <div class="mode-container">
+                <button class="mode-card-btn" onclick="openMode('normal')">
+                    <span class="mode-icon">📚</span>
+                    <div class="mode-info"><strong>Klasik</strong><small>10 Seviye</small></div>
+                </button>
+                <button class="mode-card-btn" onclick="openMode('timed')">
+                    <span class="mode-icon">⚡</span>
+                    <div class="mode-info"><strong>Zamana Karşı</strong><small>Hızlı ve Zorlu</small></div>
+                </button>
+                <button class="mode-card-btn repeat-special" onclick="openMode('repeat')">
+                    <span class="mode-icon">🔄</span>
+                    <div class="mode-info"><strong>Tekrar Edilmeli</strong><small id="repeat-count">Hata Yok</small></div>
+                </button>
+            </div>
+        </div>
+
+        <div id="main-menu" class="menu-screen" style="display:none;">
+            <div class="menu-header">
+                <h2 id="current-mode-title" style="font-size: 24px; font-weight: 700; color: #2c3e50; margin-bottom: 15px;"></h2>
             </div>
             <div id="level-list" class="level-grid"></div>
         </div>
@@ -43,18 +63,16 @@
                         <button class="speaker-btn" onclick="speakWord()">🔊</button>
                     </div>
                     <div id="options-container" class="options-grid"></div>
-                    <p id="feedback" class="feedback-text"></p>
                 </div>
             </div>
 
             <div id="finish-screen" style="display:none;">
                 <div class="finish-content">
                     <div class="finish-icon">🏆</div>
-                    <h2>Tebrikler!</h2>
-                    <p>Bu aşamadaki tüm kelimeleri öğrendin.</p>
+                    <h2 class="finish-title">Tebrikler!</h2>
                     <div class="finish-actions">
-                        <button class="btn-primary" onclick="resetAndRetry()">🔄 Tekrarla</button>
-                        <button class="btn-secondary" onclick="showMainMenu()">Ana Menü</button>
+                        <button class="btn-modern-primary" onclick="resetAndRetry()">🔄 Tekrarla</button>
+                        <button class="btn-modern-secondary" onclick="backToLevels()">Seviye Listesi</button>
                     </div>
                 </div>
             </div>
