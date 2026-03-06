@@ -9,8 +9,16 @@ const levelPool = {
     "2": [
         {"e": "bicycle", "t": "bisiklet"}, {"e": "kitchen", "t": "mutfak"}, {"e": "garden", "t": "bahçe"}, {"e": "window", "t": "pencere"},
         {"e": "yellow", "t": "sarı"}, {"e": "purple", "t": "mor"}, {"e": "winter", "t": "kış"}, {"e": "summer", "t": "yaz"},
-        {"e": "bridge", "t": "köprü"}, {"e": "market", "t": "market"}, {"e": "ticket", "t": "bilet"}, {"e": "mirror", "t": "ayna"}
+        {"e": "bridge", "t": "köprü"}, {"e": "market", "t": "market"}, {"e": "ticket", "t": "bilet"}, {"e": "mirror", "t": "ayna"},
+        { e: "Discover", t: "Keşfetmek" },{ e: "Healthy", t: "Sağlıklı" },{ e: "Journey", t: "Yolculuk" },{ e: "Knowledge", t: "Bilgi" },
+        { e: "Language", t: "Dil" },{ e: "Machine", t: "Makine" },{ e: "Natural", t: "Doğal" },{ e: "Opinion", t: "Fikir / Görüş" },
+        { e: "Perfect", t: "Kusursuz" },{ e: "Quality", t: "Kalite" },{ e: "Reason", t: "Sebep" },{ e: "Science", t: "Bilim" },
+        { e: "Temperature", t: "Sıcaklık" },{ e: "Understand", t: "Anlamak" },{ e: "Vacation", t: "Tatil" },{ e: "Weather", t: "Hava Durumu" },
+        { e: "Yesterday", t: "Dün" },{ e: "Zodiac", t: "Burç" },{ e: "Amount", t: "Miktar" },{ e: "Believe", t: "İnanmak" },
+        { e: "Century", t: "Yüzyıl" },{ e: "Danger", t: "Tehlike" },{ e: "Education", t: "Eğitim" },{ e: "Freedom", t: "Özgürlük" },
+        { e: "Government", t: "Hükümet" },{ e: "History", t: "Tarih" },{ e: "Island", t: "Ada" },{ e: "Justice", t: "Adalet" }
     ],
+
     "3": [
         // Ev Eşyaları & Mutfak
         {"e": "refrigerator", "t": "buzdolabı"}, {"e": "microwave", "t": "mikrodalga"}, {"e": "dishwasher", "t": "bulaşık makinesi"},
@@ -389,7 +397,7 @@ const levelPool = {
     ]
 };
 
-// levelPool verileri burada en üstte tanımlanmış olmalıdır.
+// levelPool verileri burada en üstte olmalıdır.
 
 let learnedWords = JSON.parse(localStorage.getItem("learnedWords")) || {1:[],2:[],3:[],4:[],5:[],6:[],7:[],8:[],9:[],10:[]};
 let completedLevels = JSON.parse(localStorage.getItem("completedLevels")) || [];
@@ -428,11 +436,8 @@ function openMode(mode) {
     document.getElementById("landing-menu").style.display = "none";
     document.getElementById("main-menu").style.display = "block";
     document.getElementById("sub-nav-levels").style.display = "block";
-    
-    // MOD ADI HATASI DÜZELTİLDİ: Başlıklar modun içine girince görünecek
     const titles = { 'normal': 'Klasik Seviyeler', 'timed': 'Zamana Karşı', 'repeat': 'Tekrar Modu' };
     document.getElementById("current-mode-title").innerText = titles[mode];
-    
     renderLevelList();
 }
 
@@ -481,7 +486,6 @@ function startLevel(id) {
     document.getElementById("game-area").style.display = "block";
     document.getElementById("play-screen").style.display = "block";
     document.getElementById("finish-screen").style.display = "none";
-    document.getElementById("sub-nav-levels").style.display = "block";
     document.getElementById("timer-display").style.display = gameMode === 'timed' ? "flex" : "none";
     document.getElementById("streak-badge").style.display = "flex";
     document.getElementById("hint-btn").style.display = "flex";
@@ -517,6 +521,7 @@ function newQuestion() {
 
 function checkAnswer(ans, btn) {
     stopTimer();
+    if (!currentWord) return;
     stats.totalAttempts++;
     if(ans === currentWord.t) {
         if(btn) btn.classList.add('correct');
@@ -526,11 +531,13 @@ function checkAnswer(ans, btn) {
         } else {
             if(!learnedWords[currentLevel].includes(currentWord.e)) {
                 learnedWords[currentLevel].push(currentWord.e);
-                coins += (gameMode === 'timed' ? 3 : 2);
+                // DÜZENLENEN SATIR BURASI:
+                coins += 1;
             }
         }
         saveData();
-        setTimeout(updateProgressUI, 600);
+        updateUI();
+        setTimeout(() => { updateProgressUI(); }, 600);
     } else {
         if(btn) btn.classList.add('wrong');
         currentStreak = 0;
@@ -561,19 +568,16 @@ function updateProgressUI() {
 }
 
 function finishLevel() {
-    // TEKRAR MODU KALINTI HATASI DÜZELTİLDİ: game-area tamamen gizlenmeli
     document.getElementById("game-area").style.display = "none";
-    
     if(gameMode === 'repeat') {
         openMode('repeat'); 
     } else {
-        document.getElementById("game-area").style.display = "block"; // Bitiş ekranı için geri aç
+        document.getElementById("game-area").style.display = "block";
         document.getElementById("play-screen").style.display = "none";
         document.getElementById("finish-screen").style.display = "block";
         document.getElementById("hint-btn").style.display = "none";
         document.getElementById("streak-badge").style.display = "none";
         document.getElementById("timer-display").style.display = "none";
-        document.getElementById("sub-nav-levels").style.display = "none";
         if(!completedLevels.includes(currentLevel)) completedLevels.push(currentLevel);
     }
     saveData();
@@ -613,10 +617,18 @@ function startTimer() {
 
 function stopTimer() { if(timerInterval) clearInterval(timerInterval); }
 function speakWord() { if(currentWord) { const msg = new SpeechSynthesisUtterance(currentWord.e); msg.lang = 'en-US'; window.speechSynthesis.speak(msg); } }
+
 function useHint() {
     if(coins >= 10 && currentWord) {
-        coins -= 10; saveData(); updateUI();
-        const btns = Array.from(document.querySelectorAll('.opt-btn:not(.correct)'));
-        btns.sort(() => Math.random() - 0.5).slice(0, 2).forEach(b => b.classList.add('hidden'));
+        const btns = Array.from(document.querySelectorAll('.opt-btn'));
+        const wrongBtns = btns.filter(b => b.innerText !== currentWord.t && b.style.visibility !== 'hidden');
+        if(wrongBtns.length >= 2) {
+            coins -= 10;
+            saveData();
+            updateUI();
+            wrongBtns.sort(() => Math.random() - 0.5).slice(0, 2).forEach(b => {
+                b.classList.add('hidden-hint');
+            });
+        }
     }
 }

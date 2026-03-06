@@ -7,29 +7,24 @@ body { background: var(--bg); color: var(--dark); display: flex; justify-content
 .container { width: 100%; max-width: 480px; background: white; min-height: 100vh; padding: 25px; border-radius: 20px; box-shadow: var(--shadow); }
 
 .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-.header-left { display: flex; flex-direction: column; gap: 2px; }
-.header-left h1, #sub-nav-levels { font-size: 18px; font-weight: 800; color: var(--primary); line-height: 1.2; }
-#sub-nav-levels { color: #adb5bd; }
+.header-left h1, #sub-nav-levels { font-size: 18px; font-weight: 800; color: var(--primary); line-height: 1.2; cursor: pointer; }
+#sub-nav-levels { color: #adb5bd; margin-top: 2px; }
 
 .status-group { display: flex; gap: 5px; align-items: center; }
 .badge-status, .coin-status, .streak-badge, .timer-badge { 
-    background: #f1f3f5; padding: 6px 10px; border-radius: 12px; 
-    font-weight: 700; font-size: 13px; height: 35px; display: flex; align-items: center; gap: 4px; justify-content: center;
+    background: #f1f3f5; padding: 6px 10px; border-radius: 12px; font-weight: 700; font-size: 13px; 
+    height: 35px; display: flex; align-items: center; gap: 4px; justify-content: center;
 }
 .timer-badge { background: #fff5f5; color: #fa5252; border: 1px solid #ffe3e3; }
 .streak-badge { background: #fff4e6; color: #fd7e14; }
 
-.level-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding-top: 10px; }
-.level-card { background: white; border: 2.5px solid #f1f3f5; padding: 15px; border-radius: 20px; position: relative; display: flex; flex-direction: column; gap: 8px; cursor: pointer; }
-.reset-level-btn-text {
-    position: absolute; bottom: 10px; right: 10px;
-    background: #fff5f5; color: var(--danger); border: 1px solid #ffe3e3;
-    padding: 3px 6px; border-radius: 6px; font-size: 9px; font-weight: 800;
-}
-
 .mode-container { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
 .mode-card-btn { display: flex; align-items: center; gap: 15px; padding: 20px; border: 1.5px solid #f1f3f5; border-radius: 20px; background: white; cursor: pointer; text-align: left; }
 .mode-icon { font-size: 24px; background: #e7f5ff; padding: 10px; border-radius: 15px; }
+
+.level-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding-top: 10px; }
+.level-card { background: white; border: 2.5px solid #f1f3f5; padding: 15px; border-radius: 20px; position: relative; display: flex; flex-direction: column; gap: 8px; cursor: pointer; }
+.reset-level-btn-text { position: absolute; bottom: 10px; right: 10px; background: #fff5f5; color: var(--danger); border: 1px solid #ffe3e3; padding: 3px 6px; border-radius: 6px; font-size: 9px; font-weight: 800; cursor: pointer; }
 
 .card { background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: 40px 20px; border-radius: 30px; color: white; text-align: center; margin-bottom: 25px; }
 .word-text { font-size: 32px; font-weight: 800; }
@@ -37,6 +32,10 @@ body { background: var(--bg); color: var(--dark); display: flex; justify-content
 .opt-btn { padding: 18px; border-radius: 18px; border: 2px solid #f1f3f5; background: white; font-weight: 600; cursor: pointer; }
 .opt-btn.correct { background: var(--success); color: white; }
 .opt-btn.wrong { background: var(--danger); color: white; }
+
+/* İpucu için gizleme kuralı */
+.opt-btn.hidden-hint { visibility: hidden; pointer-events: none; }
+
 .progress-container { flex-grow: 1; height: 10px; background: #e9ecef; border-radius: 10px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--success); transition: 0.4s; }
 .hint-btn-header { background: #fff9db; border: 1px solid #ffe066; border-radius: 10px; height: 35px; padding: 5px 10px; cursor: pointer; }
